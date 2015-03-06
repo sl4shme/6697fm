@@ -9,14 +9,10 @@ class Link:
         self.playlist = self.sanitize(playlist)
         self.date = datetime.now()
         self.nick = nick
-        self.media = self.getMedia()
         self.infos = self.add()
 
     def sanitize(self, toClean):
         return toClean
-
-    def getMedia(self):
-        self.media = "soundcloud"
 
     def add(self):
         if self.media == "soundcloud":
@@ -32,7 +28,6 @@ class Link:
                 "playlist": self.playlist,
                 "date": self.date,
                 "nick": self.nick,
-                "media": self.media,
                 "infos": self.infos
                 }
         return data

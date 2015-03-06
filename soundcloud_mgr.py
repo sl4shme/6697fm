@@ -2,8 +2,6 @@ import soundcloud
 import config
 
 
-# LOG LOG LOG
-
 class Sc:
     def __init__(self):
         self.client = soundcloud.Client(client_id=config.scId,
@@ -28,27 +26,30 @@ class Sc:
 
     def addTrack(self, playlists):
         self.client.put("/me/favorites/{}".format(self.datas.id))
+        myplaylist = self.client.get('/me/playlists')
         for playlistName in playlists:
-            playlistInfos = {'title': playlistName, 'sharing': "public"}
-            playlist = self.client.post('/playlists', playlist=playlistInfos)
-            track = {'tracks': map(lambda id: dict(id=id), [self.datas.id])}
-            self.client.put(playlist.uri, playlist={'tracks': track})
+            if playlistName in [item.title for item in myplaylist]:
+                infos = [item for item in myplaylist if item.title ==
+                         playlistName][0]
+                uri = infos.uri
+                tracks = [{'id': item['id']} for item in infos.tracks]
+                tracks.append({'id': self.datas.id})
+                tracks = {'tracks': tracks}
+            else:
+                playlistInfos = {'title': playlistName, 'sharing': "public"}
+                playlist = self.client.post('/playlists',
+                                            playlist=playlistInfos)
+                uri = playlist.uri
+                tracks = {'tracks': [{'id': self.datas.id}]}
+            self.client.put(uri, playlist=tracks)
 
     def toDict(self):
-        dico = {}
+        dico = {'media': "soundcloud",
+                'kind': self.datas.kind,
+                'uri': self.datas.uri}
+        if self.datas.kind == "user":
+            dico['full_name'] = self.datas.full_name
+            dico['username'] = self.datas.username
+        else:
+            dico['title'] = self.datas.title
         return dico
-
-
-# create a client object with access token
-client = soundcloud.Client(access_token='YOUR_ACCESS_TOKEN')
-
-# create an array of track ids
-tracks = map(lambda id: dict(id=id), [21778201, 22448500, 21928809])
-
-# get playlist
-playlist = client.get('/me/playlists')[0]
-
-# add tracks to playlist
-client.put(playlist.uri, playlist={
-    'tracks': tracks
-})
