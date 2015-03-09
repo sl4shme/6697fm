@@ -1,6 +1,6 @@
 from datetime import datetime
-import soundcloud_mgr
-import youtube_mgr
+import soundcloud6697
+import youtube6697
 
 
 class Link:
@@ -12,17 +12,45 @@ class Link:
         self.infos = self.add()
 
     def sanitize(self, toClean):
-        return toClean
-
-
+        return str(toClean)
 
     def add(self):
-        if self.media == "soundcloud":
-            self.manager = soundcloud_mgr.Sc()
-        if self.media == "youtube":
-            self.manager = youtube_mgr.Sc()
-
-        return self.manager.add(self.url, [self.nick, self.playlist])
+        scFailed = False
+        ytFailed = False
+        okay = False
+        if "soundcloud" in self.url:
+            try:
+                self.manager = soundcloud6697.Sc()
+                self.url = self.manager.check(self.url)
+                okay = True
+            except:
+                scFailed = True
+        elif "youtu" in self.url:
+            try:
+                self.manager = youtube6697.Yt()
+                self.url = self.manager.check(self.url)
+                okay = True
+            except:
+                ytFailed = True
+        if not okay:
+            try:
+                if scFailed:
+                    raise ValueError("dummie")
+                self.manager = soundcloud6697.Sc()
+                self.url = self.manager.check(self.url)
+                okay = True
+            except:
+                try:
+                    if ytFailed:
+                        raise ValueError("dummie")
+                    self.manager = youtube6697.Yt()
+                    self.url = self.manager.check(self.url)
+                    okay = True
+                except:
+                    raise ValueError("Link not valid.")
+        if okay:
+            self.manager.connect()
+            return self.manager.add([self.nick, self.playlist])
 
     def toDict(self):
         data = {

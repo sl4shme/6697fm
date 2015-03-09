@@ -9,6 +9,9 @@ class Sc:
                                         username=config.scUsername,
                                         password=config.scPassword)
 
+    def connect(self):
+        pass
+
     def check(self, link):
         try:
             self.datas = self.client.get("/resolve", url=link)
@@ -54,5 +57,5 @@ class Sc:
             dico['full_name'] = self.datas.full_name
             dico['username'] = self.datas.username
         else:
-            dico['title'] = self.datas.title
+            dico['title'] = self.datas.username+" - "+self.datas.title
         return dico
