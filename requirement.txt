@@ -1,5 +1,7 @@
 soundcloud
 gdata
 tinydictdb
+lxml
+
 future
 https://github.com/hfalcic/google-gdata

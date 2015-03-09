@@ -8,11 +8,13 @@ class Link:
         self.url = self.sanitize(url)
         self.playlist = self.sanitize(playlist)
         self.date = datetime.now()
-        self.nick = nick
+        self.nick = self.sanitize(nick)
         self.infos = self.add()
 
     def sanitize(self, toClean):
         return toClean
+
+
 
     def add(self):
         if self.media == "soundcloud":

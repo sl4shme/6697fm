@@ -9,11 +9,14 @@ class Sc:
                                         username=config.scUsername,
                                         password=config.scPassword)
 
-    def add(self, link, playlists):
+    def check(self, link):
         try:
             self.datas = self.client.get("/resolve", url=link)
         except:
             raise ValueError("Incorrect link: {}".format(link))
+        return self.datas.permalink_url
+
+    def add(self, playlists):
         if self.datas.kind == "track":
             self.addTrack(playlists)
         elif self.datas.kind == "playlist":
@@ -21,7 +24,7 @@ class Sc:
         elif self.datas.kind == "user":
             self.client.put("/me/following/{}".format(self.datas.id))
         else:
-            raise ValueError("Incorrect link: {}".format(link))
+            raise ValueError("Link not track, playlist or user.")
         return self.toDict()
 
     def addTrack(self, playlists):
