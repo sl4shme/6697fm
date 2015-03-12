@@ -23,9 +23,10 @@ class Sc:
         if self.datas.kind == "track":
             self.addTrack(playlists)
         elif self.datas.kind == "playlist":
-            self.client.put("/me/favorites/{}".format(self.datas.id))
+#            self.client.put("/me/favorites/{}".format(self.datas.id))
+            pass
         elif self.datas.kind == "user":
-            self.client.put("/me/following/{}".format(self.datas.id))
+            self.client.put("/me/followings/{}".format(self.datas.id))
         else:
             raise ValueError("Link not track, playlist or user.")
         return self.toDict()
@@ -57,5 +58,5 @@ class Sc:
             dico['full_name'] = self.datas.full_name
             dico['username'] = self.datas.username
         else:
-            dico['title'] = self.datas.username+" - "+self.datas.title
+            dico['title'] = self.datas.user['username']+" - "+self.datas.title
         return dico

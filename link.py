@@ -6,9 +6,9 @@ import re
 
 class Link:
     def __init__(self, url, nick, playlists=[]):
-        self.url = self.sanitize(url)
+        self.url = str(url)
         self.playlists = self.sanitize(playlists)
-        self.date = datetime.now()
+        self.date = str(datetime.now())
         self.nick = self.sanitize(nick)
         self.infos = self.add()
 
