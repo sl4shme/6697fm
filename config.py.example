@@ -1,0 +1,11 @@
+linkDb = "pathToFile"
+errorLog = "pathToFile"
+scId = 'soundcloudId'
+scSecret = 'soundcloudSecret'
+scUsername = 'soundcloudUsername'
+scPassword = 'soundcloudPassword'
+ytDevelopperKey = 'youtubeDevelopperKey'
+ytClientId = "youtubeClientId"
+ytEmail = 'youtubeEmail'
+ytPassword = "youtubePassword"
+

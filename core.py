@@ -20,7 +20,7 @@ try:
         entry['playlists'].append("favorites")
     if entry['infos']['media'] == "youtube":
         if entry['infos']['kind'] == "track":
-            resp = "Added this track to my channel http://bit.ly/19ekX3p on playlists: {}".format(str(entry['playlists']))
+            resp = "Added this track to my channel http://bit.ly/1x7F26f on playlists: {}".format(str(entry['playlists']))
         else:
             resp = "Youtube doesn't know how to deal with user and playlists, still logging for posterity."
     
@@ -31,5 +31,7 @@ try:
         if entry['infos']['kind'] == "playlist":
             resp = "Soundcloud doesn't support liking playlists using the api. Still logging for posterity."
     print(resp)
-except:
+except Exception as e:
+    db = tddb.TinyDictDb(config.errorLog)
+    db.addEntries({'msg': msg, 'error': str(e)})
     sys.exit(1)
