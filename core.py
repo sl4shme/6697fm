@@ -33,5 +33,5 @@ try:
     print(resp)
 except Exception as e:
     db = tddb.TinyDictDb(config.errorLog)
-    db.addEntries({'msg': msg, 'error': str(e)})
+    db.addEntries({'msg': msg, 'error': str(e), 'url': url})
     sys.exit(1)
